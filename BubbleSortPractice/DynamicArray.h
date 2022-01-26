@@ -7,33 +7,38 @@ public:
 	DynamicArray();
 	~DynamicArray();
 
-	T* getItem(int index);
+	T getItem(int index);
 	int getLength();
 
 	void addItem(T item);
+	void addItems(T items[], int itemsSize);
 	bool removeItem(T item);
 	void sortItems();
 private:
-	T** m_items;
-	int m_length
+	T* m_items;
+	int m_length;
 };
 
 template<typename T>
 inline DynamicArray<T>::DynamicArray()
 {
-	m_items = new T* {};
+	m_items = nullptr;
 	m_length = 0;
 }
 
 template<typename T>
 inline DynamicArray<T>::~DynamicArray()
 {
-	delete m_items;
 }
 
 template<typename T>
-T* DynamicArray<T>::getItem(int index)
+T DynamicArray<T>::getItem(int index)
 {
+	if (index < 0 || index >= getLength())
+	{
+		return T();
+	}
+
 	for (int i = 0; i < m_length; i++)
 	{
 		if (i == index)
@@ -41,8 +46,6 @@ T* DynamicArray<T>::getItem(int index)
 			return m_items[i];
 		}
 	}
-
-	return nullptr;
 }
 
 template<typename T>
@@ -54,17 +57,26 @@ inline int DynamicArray<T>::getLength()
 template<typename T>
 inline void DynamicArray<T>::addItem(T item)
 {
-	T** tempArray = new T * [m_length + 1];
+	T* tempArray = new T  [getLength() + 1];
 
-	for (int i = 0; i < m_length; i++)
+	for (int i = 0; i < getLength(); i++)
 	{
 		tempArray[i] = m_items[i];
 	}
 
-	tempArray[m_length] = item;
-
+	tempArray[getLength()] = item;
+	delete[] m_items;
 	m_items = tempArray;
 	m_length++;
+}
+
+template<typename T>
+inline void DynamicArray<T>::addItems(T items[], int itemsSize)
+{
+	for (int i = 0; i < itemsSize; i++)
+	{
+		addItem(items[i]);
+	}
 }
 
 template<typename T>
@@ -78,15 +90,15 @@ inline bool DynamicArray<T>::removeItem(T item)
 
 	bool itemRemoved = false;
 
-	T** tempArray = new T * [m_length - 1];
+	T* tempArray = new T  [getLength() - 1];
 
-	j = 0;
-	for (int i = 0; i < m_length)
+	int j = 0;
+	for (int i = 0; i < getLength(); i++)
 	{
 		if (item != m_items[i])
 		{
 			tempArray[j] = m_items[i];
-			j++
+			j++;
 		}
 		else
 		{
@@ -96,6 +108,7 @@ inline bool DynamicArray<T>::removeItem(T item)
 
 	if (itemRemoved)
 	{
+		delete[] m_items;
 		m_items = tempArray;
 		m_length--;
 	}
@@ -106,10 +119,10 @@ inline bool DynamicArray<T>::removeItem(T item)
 template<typename T>
 inline void DynamicArray<T>::sortItems()
 {
-	T* key;
+	T key;
 	int j = 0;
 
-	for (int i = 0; i < m_length, i++)
+	for (int i = 0; i < getLength(); i++)
 	{
 		key = m_items[i];
 		j = i - 1;

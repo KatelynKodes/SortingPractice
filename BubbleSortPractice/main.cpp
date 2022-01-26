@@ -1,4 +1,5 @@
 #include <iostream>
+#include "DynamicArray.h"
 
 int numberArray[] = { 8,2,9,4,0 };
 int numberArray2[] = { 4,6,7,3,9 };
@@ -12,6 +13,19 @@ void PrintArray(T arrToPrint[], int size)
 		std::cout << arrToPrint[i];
 		std::cout << " ";
 	}
+
+	std::cout << std::endl;
+}
+
+void PrintDynamicArray(DynamicArray<int> arr)
+{
+	for (int i = 0; i < arr.getLength(); i++)
+	{
+		std::cout << arr.getItem(i);
+		std::cout << " ";
+	}
+
+	std::cout << std::endl;
 }
 
 template <typename T>
@@ -76,17 +90,33 @@ int main()
 
 	BubbleSort(numberArray, 5);
 
-	std::cout << "\nThe new array is: ";
+	std::cout << "The new array is: ";
 
 	PrintArray(numberArray, 5);
 
 	//INSERTION SORT
-	std::cout << "\n\nINSERTION SORT:\nThe current array is ";
+	std::cout << "\nINSERTION SORT:\nThe current array is ";
 	PrintArray(numberArray2, 5);
 
 	insertionSort(numberArray2, 5);
 
-	std::cout << "\nThe new array is: ";
+	std::cout << "The new array is: ";
 	PrintArray(numberArray2, 5);
+
+	//DYNAMIC ARRAY
+	DynamicArray<int> arr = DynamicArray<int>();
+	arr.addItems(new int[5] {5, 3, 2, 4, 1}, 5);
+
+	std::cout << "\nDYNAMIC ARRAY LIST:\nThe current dynamic Array is: ";
+	PrintDynamicArray(arr);
+
+	arr.sortItems();
+	std::cout << "array after sorting: ";
+	PrintDynamicArray(arr);
+
+	arr.removeItem(4);
+	std::cout << "array after removing the number 4: ";
+	PrintDynamicArray(arr);
+
 }
 
