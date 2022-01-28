@@ -46,7 +46,7 @@ inline Iterator<T> Iterator<T>::operator--()
 template<typename T>
 inline T* Iterator<T>::operator*()
 {
-	return m_current;
+	return m_current->data;
 }
 
 template<typename T>
