@@ -72,7 +72,7 @@ public:
 	bool insert(const T& value, int index);
 
 	/// <summary>
-	/// remove all nodes with the given value
+	/// removes the first node with the given value
 	/// </summary>
 	/// <param name = "value"> the value of the nodes that are being removed </param>
 	bool remove(const T& value);
@@ -96,23 +96,35 @@ private:
 template<typename T>
 inline List<T>::List()
 {
-	m_nodecount = 0;
+	initialize();
 }
 
 template<typename T>
 inline List<T>::List(const List<T>& other)
 {
-	m_nodecount = 0;
+	m_head = other.m_head;
+	m_tail = other.m_tail;
+	m_nodecount = other.m_nodecount;
 }
 
 template<typename T>
 inline List<T>::~List()
 {
+	destroy();
 }
 
 template<typename T>
 inline void List<T>::destroy()
 {
+	Node<T>* currNode = m_head;
+	Node<T>* TempNode = new Node<T>();
+
+	for (int i = 0; i < m_nodecount; i++)
+	{
+		TempNode = currNode;
+		delete currNode;
+		currNode = TempNode->next;
+	}
 }
 
 template<typename T>
@@ -132,11 +144,24 @@ inline Iterator<T> List<T>::end() const
 template<typename T>
 inline void List<T>::initialize()
 {
+	m_nodecount = 0;
+	m_head = new Node<T>();
+	m_tail = new Node<T>();
 }
 
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
+	for (int i = 0; i < m_nodecount; i++)
+	{
+		iter.m_current = iter.m_current->next;
+
+		if (i == index)
+		{
+			return true;
+		}
+	}
+
 	return false;
 }
 
@@ -183,7 +208,7 @@ template<typename T>
 inline void List<T>::pushFront(const T& value)
 {
 	/// Make a new node containing the value of the value passed in
-	Node<T>* newNode = Node<T>(value);
+	Node<T>* newNode = new Node<T>(value);
 
 	/// set the new node's previous to be null/nullptr
 	newNode->previous = nullptr;
@@ -196,13 +221,16 @@ inline void List<T>::pushFront(const T& value)
 
 	/// set the new node to be the head node value
 	m_head = newNode;
+
+	//Increase the node count
+	m_nodecount++;
 }
 
 template<typename T>
 inline void List<T>::pushBack(const T& value)
 {
 	/// Make a new node containing the value of the value passed in
-	Node<T>* newNode = Node<T>(value);
+	Node<T>* newNode = new Node<T>(value);
 
 	/// set the new node's next to be null/nullptr
 	newNode->next = nullptr;
@@ -215,17 +243,75 @@ inline void List<T>::pushBack(const T& value)
 
 	/// set the new node to be the tail node value
 	m_tail = newNode;
+
+	//Increase the node count
+	m_nodecount++;
 }
 
 template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
+	Node<T>* newNode = new Node<T>(value);
+	Node<T>* currNode = m_head;
+
+	for (int i = 0; i < m_nodecount; i++)
+	{
+		//If i is equal to the number passed in...
+		if (i == index)
+		{
+			//set the new nodes next to be the current node
+			newNode->next = currNode;
+
+			//set the new node's previous to be the current node's previous
+			newNode->previous = currNode->previous;
+
+			//set the current node's previous' next to be the new node
+			currNode->previous->next = newNode;
+
+			//set the current nodes previous to be the new node
+			currNode->previous = newNode;
+
+			//increase the node count
+			m_nodecount++;
+
+			return true;
+		}
+
+		// Set the iterators current to be the currents next
+		currNode = currNode->next;
+	}
 	return false;
 }
 
 template<typename T>
 inline bool List<T>::remove(const T& value)
 {
+	Node<T> currNode = m_head;
+
+	for (int i = 0; i < m_nodecount; i++)
+	{
+		//If the current nodes data is equal to the value passed in...
+		if (currNode.data == value)
+		{
+			//Set the current node's previous' next to be the current node's next
+			currNode->previous->next = currNode->next;
+
+			//set the current node's next previous to be the current node's previous
+			currNode->next->previous = currNode->previous;
+
+			//set the current current node's previous to be null
+			currNode->previous = nullptr;
+
+			//set the current node's next to be null
+			currNode->next = nullptr;
+
+			return true;
+		}
+
+		// Set the current node to be the current node's next
+		currNode = currNode.next;
+	}
+
 	return false;
 }
 
@@ -237,10 +323,11 @@ inline void List<T>::print() const
 		std::cout << *iter << " ";
 	}
 
-	std::endl;
+	std::cout << "" << std::endl;
 }
 
 template<typename T>
 inline void List<T>::sort()
 {
+
 }

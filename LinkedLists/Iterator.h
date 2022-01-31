@@ -10,7 +10,7 @@ public:
 
 	Iterator<T> operator++();
 	Iterator<T> operator--();
-	T* operator*();
+	T operator*();
 
 	const bool operator==(const Iterator<T>& iter);
 	const bool operator!=(const Iterator<T>& iter);
@@ -44,7 +44,7 @@ inline Iterator<T> Iterator<T>::operator--()
 }
 
 template<typename T>
-inline T* Iterator<T>::operator*()
+inline T Iterator<T>::operator*()
 {
 	return m_current->data;
 }
