@@ -7,7 +7,10 @@ int main()
 
 	//Insert numbers into the list
 	numberList.pushFront(1);
-	numberList.pushFront(2);
+	numberList.pushBack(2);
+	numberList.pushBack(3);
+	numberList.pushBack(5);
+	numberList.pushBack(6);
 
 	//print numbers
 	std::cout << "LINKED LIST: ";

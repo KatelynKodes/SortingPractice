@@ -137,7 +137,7 @@ inline Iterator<T> List<T>::begin() const
 template<typename T>
 inline Iterator<T> List<T>::end() const
 {
-	Iterator<T> endingIter = Iterator<T>(m_tail);
+	Iterator<T> endingIter = Iterator<T>(m_tail->next);
 	return endingIter;
 }
 
@@ -145,8 +145,8 @@ template<typename T>
 inline void List<T>::initialize()
 {
 	m_nodecount = 0;
-	m_head = new Node<T>();
-	m_tail = new Node<T>();
+	m_head = nullptr;
+	m_tail = nullptr;
 }
 
 template<typename T>
@@ -210,20 +210,20 @@ inline void List<T>::pushFront(const T& value)
 	/// Make a new node containing the value of the value passed in
 	Node<T>* newNode = new Node<T>(value);
 
-	/// set the new node's previous to be null/nullptr
-	newNode->previous = nullptr;
+	if (m_head == nullptr && m_tail == nullptr)
+	{
+		m_head = newNode;
+		m_tail = newNode;
+	}
+	else
+	{
+		m_head->previous = newNode;
+		newNode->next = m_head;
+		m_head = newNode;
+	}
 
-	/// set the head's node to have a previous equal to the new node
-	m_head->previous = newNode;
-
-	/// set the new node's next to be the head node
-	newNode->next = m_head;
-
-	/// set the new node to be the head node value
-	m_head = newNode;
-
-	//Increase the node count
 	m_nodecount++;
+
 }
 
 template<typename T>
@@ -232,25 +232,35 @@ inline void List<T>::pushBack(const T& value)
 	/// Make a new node containing the value of the value passed in
 	Node<T>* newNode = new Node<T>(value);
 
-	/// set the new node's next to be null/nullptr
-	newNode->next = nullptr;
+	if (m_head == nullptr && m_tail == nullptr)
+	{
+		m_head = newNode;
+		m_tail = newNode;
+	}
+	else
+	{
+		m_tail->next = newNode;
+		newNode->previous = m_tail;
+		m_tail = newNode;
+	}
 
-	/// set the new node's previous to be the tail node
-	newNode->previous = m_tail;
-
-	/// set the tail's node to have a next equal to the new node
-	m_tail->next = nullptr;
-
-	/// set the new node to be the tail node value
-	m_tail = newNode;
-
-	//Increase the node count
 	m_nodecount++;
 }
 
 template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
+	if (index == 0)
+	{
+		pushFront(value);
+		return false;
+	}
+	else if(index == m_nodecount)
+	{
+		pushBack(value);
+		return false;
+	}
+
 	Node<T>* newNode = new Node<T>(value);
 	Node<T>* currNode = m_head;
 
