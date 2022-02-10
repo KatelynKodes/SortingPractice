@@ -245,45 +245,44 @@ inline void List<T>::pushBack(const T& value)
 template<typename T>
 inline bool List<T>::insert(const T& value, int index)
 {
-	if (index == 0)
+	if (isEmpty())
 	{
-		pushFront(value);
 		return false;
 	}
-	else if(index == m_nodecount)
+	else
 	{
-		pushBack(value);
-		return false;
-	}
-
-	Node<T>* newNode = new Node<T>(value);
-	Node<T>* currNode = m_head;
-
-	for (int i = 0; i < m_nodecount; i++)
-	{
-		//If i is equal to the number passed in...
-		if (i == index)
+		if (index == 0)
 		{
-			//set the new nodes next to be the current node
-			newNode->next = currNode;
-
-			//set the new node's previous to be the current node's previous
-			newNode->previous = currNode->previous;
-
-			//set the current node's previous' next to be the new node
-			currNode->previous->next = newNode;
-
-			//set the current nodes previous to be the new node
-			currNode->previous = newNode;
-
-			//increase the node count
-			m_nodecount++;
-
+			pushFront(value);
+			return true;
+		}
+		else if (index == m_nodecount)
+		{
+			pushBack(value);
 			return true;
 		}
 
-		// Set the iterators current to be the currents next
-		currNode = currNode->next;
+		Node<T>* currNode = m_head;
+		Node<T>* newNode = new Node<T>(value);
+		int i = 0;
+
+		while (currNode != nullptr)
+		{
+			if (i == index)
+			{
+				newNode->next = currNode;
+				newNode->previous = currNode->previous;
+				currNode->previous->next = newNode;
+				currNode->previous = newNode;
+				i++;
+				return true;
+			}
+			else
+			{
+				currNode = currNode->next;
+				i++;
+			}
+		}
 	}
 	return false;
 }

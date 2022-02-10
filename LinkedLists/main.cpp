@@ -16,5 +16,19 @@ int main()
 	std::cout << "LINKED LIST: ";
 	numberList.print();
 
+	//Inserting
+	numberList.insert(4, 2);
+	numberList.insert(0, 0);
+	numberList.insert(7, 6);
+	std::cout << "INSERTING INTO LINKED LIST:";
+	numberList.print();
+
+	//Sorting
+	std::cout << "SORTED LINKED LIST:";
+	numberList.print();
+
+	//Removing
+	std::cout << "REMOVING VALUE FROM LINKED LIST:";
+	numberList.print();
 
 }
