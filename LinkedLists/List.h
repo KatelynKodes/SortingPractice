@@ -116,14 +116,9 @@ inline List<T>::~List()
 template<typename T>
 inline void List<T>::destroy()
 {
-	Node<T>* currNode = m_head;
-	Node<T>* TempNode = new Node<T>();
-
-	for (int i = 0; i < m_nodecount; i++)
+	while (!isEmpty())
 	{
-		TempNode = currNode;
-		delete currNode;
-		currNode = TempNode->next;
+		remove(m_head->data);
 	}
 }
 
@@ -296,32 +291,46 @@ inline bool List<T>::insert(const T& value, int index)
 template<typename T>
 inline bool List<T>::remove(const T& value)
 {
-	Node<T> currNode = m_head;
-
-	for (int i = 0; i < m_nodecount; i++)
+	if (isEmpty())
 	{
-		//If the current nodes data is equal to the value passed in...
-		if (currNode.data == value)
-		{
-			//Set the current node's previous' next to be the current node's next
-			currNode->previous->next = currNode->next;
-
-			//set the current node's next previous to be the current node's previous
-			currNode->next->previous = currNode->previous;
-
-			//set the current current node's previous to be null
-			currNode->previous = nullptr;
-
-			//set the current node's next to be null
-			currNode->next = nullptr;
-
-			return true;
-		}
-
-		// Set the current node to be the current node's next
-		currNode = currNode.next;
+		return false;
 	}
+	else
+	{
+		Node<T>* currNode = m_head;
 
+		while (currNode != nullptr)
+		{
+			if (currNode->data == value)
+			{
+				if (currNode->previous == nullptr)
+				{
+					m_head = currNode->next;
+				}
+				else
+				{
+					currNode->previous->next = currNode->next;
+				}
+
+				if (currNode->next == nullptr)
+				{
+					m_tail = currNode->previous;
+				}
+				else
+				{
+					currNode->next->previous = currNode->previous;
+				}
+
+				delete currNode;
+				m_nodecount--;
+				return true;
+			}
+			else
+			{
+				currNode = currNode->next;
+			}
+		}
+	}
 	return false;
 }
 
