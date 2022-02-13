@@ -347,5 +347,34 @@ inline void List<T>::print() const
 template<typename T>
 inline void List<T>::sort()
 {
+	if (!isEmpty())
+	{
+		Node<T>* nodeToChange = nullptr;
+		Node<T>* currNode = m_head;
+		Node<T>* comparNode = m_head;
 
+		for (int i = 0; i < getLength(); i++)
+		{
+			for (int j = 0; j < getLength(); j++)
+			{
+				if (currNode->data > comparNode->data)
+				{
+					Node<T>* prevNode = nullptr;
+					nodeToChange = comparNode;
+					currNode->next = nodeToChange->next;
+					nodeToChange->next = currNode;
+					prevNode = currNode->previous;
+					currNode->previous = nodeToChange->previous;
+					nodeToChange->previous = prevNode;
+					currNode = nodeToChange;
+				}
+				else
+				{
+					comparNode = comparNode->next;
+				}
+			}
+
+			currNode = currNode->next;
+		}
+	}
 }

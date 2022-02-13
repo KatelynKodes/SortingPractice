@@ -5,29 +5,32 @@ int main()
 	//Declare the list
 	List<float> numberList = List<float>();
 
+
 	//Insert numbers into the list
-	numberList.pushFront(1);
-	numberList.pushBack(2);
+	numberList.pushFront(6);
+	numberList.pushBack(9);
 	numberList.pushBack(3);
-	numberList.pushBack(5);
-	numberList.pushBack(6);
+	numberList.pushBack(2);
+	numberList.pushBack(7);
 
 	//print numbers
 	std::cout << "LINKED LIST: ";
 	numberList.print();
 
 	//Inserting
-	numberList.insert(4, 2);
-	numberList.insert(0, 0);
-	numberList.insert(7, 6);
 	std::cout << "INSERTING INTO LINKED LIST:";
+	numberList.insert(1, 3);
+	numberList.insert(5, 0);
+	numberList.insert(4, numberList.getLength());
 	numberList.print();
 
 	//Sorting
 	std::cout << "SORTED LINKED LIST:";
+	numberList.sort();
 	numberList.print();
 
 	//Removing
+	numberList.remove(3);
 	std::cout << "REMOVING VALUE FROM LINKED LIST:";
 	numberList.print();
 
