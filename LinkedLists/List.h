@@ -349,32 +349,23 @@ inline void List<T>::sort()
 {
 	if (!isEmpty())
 	{
-		Node<T>* nodeToChange = nullptr;
-		Node<T>* currNode = m_head;
-		Node<T>* comparNode = m_head;
+		Node<T>* currNode = nullptr;
+		Node<T>* tempNode = new Node<T>();
 
 		for (int i = 0; i < getLength(); i++)
 		{
+			currNode = m_head;
 			for (int j = 0; j < getLength(); j++)
 			{
-				if (currNode->data > comparNode->data)
+				if (currNode->data > currNode->next->data)
 				{
-					Node<T>* prevNode = nullptr;
-					nodeToChange = comparNode;
-					currNode->next = nodeToChange->next;
-					nodeToChange->next = currNode;
-					prevNode = currNode->previous;
-					currNode->previous = nodeToChange->previous;
-					nodeToChange->previous = prevNode;
-					currNode = nodeToChange;
+					tempNode->data = currNode->data;
+					currNode->data = currNode->next->data;
+					currNode->next->data = tempNode->data;
 				}
-				else
-				{
-					comparNode = comparNode->next;
-				}
-			}
 
-			currNode = currNode->next;
+				currNode = currNode->next;
+			}
 		}
 	}
 }
