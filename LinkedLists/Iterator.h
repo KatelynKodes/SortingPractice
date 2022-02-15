@@ -22,7 +22,7 @@ private:
 template<typename T>
 inline Iterator<T>::Iterator()
 {
-	m_current = T();
+	m_current = new Node<T>();
 }
 
 template<typename T>
