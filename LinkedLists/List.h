@@ -247,7 +247,8 @@ inline bool List<T>::insert(const T& value, int index)
 {
 	if (isEmpty())
 	{
-		return false;
+		pushFront(value);
+		return true;
 	}
 	else
 	{

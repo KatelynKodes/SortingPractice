@@ -128,18 +128,60 @@ linked list
             - Visibility: public
             - Arguments: none
 
-            - Name: 
-            - Description: 
-            - Visibility: 
-            - Arguments:
+            - Name: operator=()
+            - Description: Sets the current instance of the list's head, tail and node count to be equal to the other lists head, tail and nodecount. Then returns the instance of the list.
+            - Visibility: public
+            - Arguments: other (const List\<T>& otherlist)
 
-            - Name: 
-            - Description: 
-            - Visibility: 
-            - Arguments:
+            - Name: isEmpty()
+            - Description: Returns a true or false value depending on if the node count is equal to 0. True if the nodecount is equal to 0, false otherwise.
+            - Visibility: public
+            - Arguments: none
 
-            - Name: 
-            - Description: 
-            - Visibility: 
-            - Arguments:
+            - Name: contains()
+            - Description: Iterates through the list using an iterator and if the iterator is pointing to the value of the object passed into the method, returns true. Returns false if the whole list is iterated through
+            - Visibility: public
+            - Arguments: object (const T)
+
+            - Name: pushFront()
+            - Description: Adds a new node to the front of the list. After reating a new node with the value passed into the method if the head and tail are null, sets the head and tail to be pointing to the new node. Otherwise, the head node's previous is set to the new node, the new node's next points to the head node, and the head begins pointing to the new node. Then the node count increments by 1. 
+            - Visibility: public
+            - Arguments: value (const T&)
+
+            - Name: pushBack()
+            - Description: Adds a new node to the back of the list. After reating a new node with the value passed into the method if the head and tail are null, sets the head and tail to be pointing to the new node. Otherwise, the tail node's next is set to the new node, the new node's previous points to the tail node, and the tail begins pointing to the new node. Then the node count increments by 1. 
+            - Visibility: public
+            - Arguments: value (const T&)
+
+            - Name: Insert()
+            - Description: Inserts a node with a given value to a given index, if the list is empty the pushfront method is called using the value passed into the insert method. If not, the insert function checks if the index passed into it is equal to zero, if it is the pushfront method is called using the value passed into the insert method and returns true. It then checks if the index is equal to the node count, if so the pushBack method is called using the value passed into the insert method and returns true. If none of those conditions are met a new node is created with the value passed into the insert method and while the current node is not null pointer, the list keeps going to the next node until it reaches the index passed into the insert method. Here, it sets the new node's next to be the current node, the new node's previous to be the current node's previous, the new node's previous next to be the newNode and the current node's previous to be the new node. 
+            - Visibility: public
+            - Arguments: value (const T& value), index (int)
+
+            - Name: remove()
+            - Description: If the list is not empty, while the current node is not a null pointer, checks if the current node's data is equal to the value passed into the method. If true, there is a check to see if the current node is the head, if so the current node's next is set to be the head. If else, the current node's previous next is equal to the current node's next. Then, the current node is checked to see if it's the tail, if it's the tail the tail is set to be the current node's previous. Otherwise, the current node's next previous is equal to the current node's previous. The node is then deleted, the node count decrements by 1, and the method returns true. Failure to find the value will result in the method returning false.
+            - Visibility: public
+            - Arguments: value (const T&)
+
+            - Name: print()
+            - Description: Iterates through the list using an iterator and prints the value of the node the iterator is pointing at to the console.
+            - Visibility: public
+            - Arguments: none
+
+            - Name: sort()
+            - Description: If the list isn't empty, a new node is made called tempNode and the current node is set to be a null pointer. The loop is iterated through once to set the current node to equal the head, then a second time to check compare the values against each other and set the current node to the current node's next. If the current node's data is greater than the current node's next data, the temp node's data is set to the the current nodes data. Then the current node's data is set to the current node's next data, and then the current node's next data is set to the temp node data.
+            - Visibility: public
+            - Arguments: none
+
+            - Name: m_head
+            - Description: A pointer pointing to a node that is at the front of the list, the first node in the list
+            - Visibility: private
+
+            - Name: m_tail
+            - Description: A pointer pointing to a node that is at the back of the list, the last node in the list
+            - Visibility: private
+
+            - Name: m_nodecount
+            - Description: the amount of nodes inside of the list, represents the length of the list.
+            - Visibility: private
             
