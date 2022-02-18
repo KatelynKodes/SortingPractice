@@ -34,4 +34,5 @@ int main()
 	std::cout << "REMOVING VALUE FROM LINKED LIST:";
 	numberList.print();
 
+	system("pause");
 }

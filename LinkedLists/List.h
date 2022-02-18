@@ -87,9 +87,9 @@ public:
 
 
 private:
-	Node<T>* m_head;
-	Node<T>* m_tail;
-	int m_nodecount;
+	Node<T>* m_head = nullptr;
+	Node<T>* m_tail = nullptr;
+	int m_nodecount = 0;
 };
 
 
