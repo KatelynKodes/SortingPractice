@@ -15,12 +15,20 @@ linked list
         - The program must demonstrate a custom sorting algorithm
 
 2. **Input Information**
+    - This application requires no input information from the user.
 3. **Output Information**
+    - The application runs a series of tests on a linked list, insertion, sorting, and removing a value from the linked list. Then, the linked list gets printed to the console every test.
 4. **User-Interface Information**
+    - The user is able to see the results of these tests that are run in main on the screen display.
 
 ## II. Design
 
 1. _System Architecture_
+    The linked List is made up of Nodes, which is a class created to store data inside of. This Node class contains a data variable of type T, meaning that any object of any type can fit into the variable such as characters, integers, or floats. This value variable indicates what the node itself is holding. The Node class also contains two pointers towards two other Nodes, labelling them as next and previous. These two node pointers represent the nodes that come before and after this instance of a node, so the node has a place in the list.
+
+    Iterators are objects pointing to a specific Node, the Iterator class contains a Node pointer variable pointing towards the current node it is currently on. These iterators are capable of accessing the data, next, and previous of the current node that it is pointing to. It is capable of pointing onto the current node's next as well as it's previous thus changing it's current Node. Iterators are also capable of comparing their current node to other iterators current Node.
+
+    The list is able to access all of these Nodes by only two variables, a Node pointer pointing to the "head" Node (the  node at the very front of the list) and the "tail" node (the node at the very end of the list). The list class is able to use iterators to iterate through the list of Nodes since the Iterator has access to it's current node's next. Lists are also capable of accessing Node's values because of iterators. The list class also contains a count integer representing the length of the listthat is incremented every time a new Node is added and decremented every time a new Node is deleted.
 
 2. _Object Information_
     - **Filename**: Node.h
