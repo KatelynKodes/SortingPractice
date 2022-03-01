@@ -147,13 +147,17 @@ inline void List<T>::initialize()
 template<typename T>
 inline bool List<T>::getData(Iterator<T>& iter, int index)
 {
-	for (int i = 0; i < m_nodecount; i++)
+	if (!isEmpty())
 	{
-		iter.m_current = iter.m_current->next;
-
-		if (i == index)
+		iter = Iterator<T>(m_head);
+		for (int i = 0; i < m_nodecount; i++)
 		{
-			return true;
+			if (i == index)
+			{
+				return true;
+			}
+
+			++iter;
 		}
 	}
 
@@ -169,11 +173,21 @@ inline int List<T>::getLength() const
 template<typename T>
 inline const List<T>& List<T>::operator=(const List<T>& otherlist)
 {
-	this->m_head = otherlist.m_head;
-	this->m_tail = otherlist.m_tail;
-	this->m_nodecount = otherlist.m_nodecount;
+	//Destroy the list
+	destroy();
+	Node<T>* currNode = otherlist.m_head; //Initialize a current node to be the head
 
-	return this;
+	//For as long as the other list
+	for (int i = 0; i < otherlist.getLength(); i++)
+	{
+		//Insert the other lists current node into the index of i in the current list
+		insert(currNode->data, i);
+		//Set the other current node to be the other current node's next
+		currNode = currNode->next;
+	}
+	m_nodecount = otherlist.m_nodecount;
+
+	return *this;
 }
 
 template<typename T>
@@ -188,12 +202,16 @@ inline bool List<T>::isEmpty() const
 template<typename T>
 inline bool List<T>::contains(const T object)
 {
-	// Iterate through the list...
-	for (Iterator<T> iter = begin(); iter != end(); ++iter)
+	if (!isEmpty())
 	{
-		//If the node the iterator is pointing to is the same type of object being passed in...
-		if (*iter == object) 
-			return true; //Return true
+
+		// Iterate through the list...
+		for (Iterator<T> iter = begin(); iter != end(); ++iter)
+		{
+			//If the node the iterator is pointing to is the same type of object being passed in...
+			if (*iter == object)
+				return true; //Return true
+		}
 	}
 
 	return false;
@@ -291,11 +309,7 @@ inline bool List<T>::insert(const T& value, int index)
 template<typename T>
 inline bool List<T>::remove(const T& value)
 {
-	if (isEmpty())
-	{
-		return false;
-	}
-	else
+	if (!isEmpty())
 	{
 		Node<T>* currNode = m_head;
 
@@ -331,18 +345,22 @@ inline bool List<T>::remove(const T& value)
 			}
 		}
 	}
+
 	return false;
 }
 
 template<typename T>
 inline void List<T>::print() const
 {
-	for (Iterator<T> iter = begin(); iter != end(); ++iter)
+	if (!isEmpty())
 	{
-		std::cout << *iter << " ";
-	}
+		for (Iterator<T> iter = begin(); iter != end(); ++iter)
+		{
+			std::cout << *iter << " ";
+		}
 
-	std::cout << "" << std::endl;
+		std::cout << "" << std::endl;
+	}
 }
 
 template<typename T>
@@ -353,10 +371,10 @@ inline void List<T>::sort()
 		Node<T>* currNode = nullptr;
 		Node<T>* tempNode = new Node<T>();
 
-		for (int i = 0; i < getLength(); i++)
+		for (int i = 0; i < getLength()-1; i++)
 		{
 			currNode = m_head;
-			for (int j = 0; j < getLength(); j++)
+			for (int j = 0; j < getLength()-1; j++)
 			{
 				if (currNode->data > currNode->next->data)
 				{
