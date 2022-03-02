@@ -39,4 +39,6 @@ int main()
 	numberList = numberList2;
 	std::cout << "LINKED LIST: ";
 	numberList.print();
+
+	system("pause");
 }
